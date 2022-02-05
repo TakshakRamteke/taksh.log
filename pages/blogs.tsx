@@ -1,15 +1,6 @@
-import { NextPage, GetStaticProps, NextApiResponse } from "next";
+import { NextPage, GetStaticProps } from "next";
 import Link from "next/link";
 
-
-type Data = {
-    blogCollection : {
-        items : [
-            tittle : string,
-            slug : string
-        ]
-    }
-  }
 
 export const getStaticProps: GetStaticProps = async () => {
     const query = `{
@@ -21,23 +12,23 @@ export const getStaticProps: GetStaticProps = async () => {
         }
       }`;
 
-    const response: NextApiResponse = await fetch(
+    const response = await fetch(
         `https://graphql.contentful.com/content/v1/spaces/${process.env.SPACE_ID}/environments/master`,
         {
             method : 'POST',
             headers : {
                 "Content-Type":"application/json",
-                Authorization : `Bearer ${process.env.ACCESSTOKEN}`,
+                Authorization : `Bearer ${process.env.API_KEY}`,
             },
             body: JSON.stringify({query})
         }
     ).then((res) => res.json());
 
-    console.log(response);
+    const blogs = response.data.blogCollection.items ;
 
     return {
         props: {
-            blogs : []
+            blogs
         },
     };
 }
