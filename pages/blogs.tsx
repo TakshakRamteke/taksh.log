@@ -1,6 +1,5 @@
-import { NextPage, GetStaticProps } from "next";
+import { NextPage, GetStaticProps, NextApiResponse } from "next";
 import Link from "next/link";
-
 
 export const getStaticProps: GetStaticProps = async () => {
     const query = `{
@@ -8,6 +7,9 @@ export const getStaticProps: GetStaticProps = async () => {
           items{
             tittle
             slug
+            image{
+                url
+            }
           }
         }
       }`;
